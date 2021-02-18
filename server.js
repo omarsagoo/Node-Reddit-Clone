@@ -35,10 +35,6 @@ app.get("/", (req, res) => {
     })
 })
 
-app.get("/posts/new", (req, res) => {
-    res.render("post-new")
-})
-
 // Start Server
 app.listen(3000, () => {
     console.log(`app listening on port ${3000}!`)
