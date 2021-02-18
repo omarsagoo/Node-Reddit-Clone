@@ -9,6 +9,10 @@ const expressValidator = require('express-validator');
 // Set db
 require('./data/reddit-db');
 
+// Models
+const Post = require('./models/post');
+
+
 // Use Body Parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -22,7 +26,13 @@ app.engine("handlebars", exphb({defaultLayout: 'main'}))
 app.set('view engine', 'handlebars')
 
 app.get("/", (req, res) => {
-    res.render("home")
+    Post.find({}).lean()
+    .then(posts => {
+      res.render('posts-index', { posts });
+    })
+    .catch(err => {
+      console.log(err.message);
+    })
 })
 
 app.get("/posts/new", (req, res) => {
