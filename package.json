@@ -4,7 +4,7 @@
   "description": "A reddit clone made in nodeJS",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "start": "node server.js"
   },
   "author": "",
@@ -15,5 +15,10 @@
     "express-handlebars": "^5.2.1",
     "express-validator": "^5.3.1",
     "mongoose": "^5.11.17"
+  },
+  "devDependencies": {
+    "chai": "^4.3.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^8.3.0"
   }
 }
