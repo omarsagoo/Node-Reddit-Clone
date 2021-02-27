@@ -55,7 +55,7 @@ require('./controllers/auth.js')(app)
 app.get("/", (req, res) => {
     var currentUser = req.user;
   
-    Post.find({}).lean()
+    Post.find({}).lean().populate("author")
     .then(posts => {
       res.render('posts-index', { posts, currentUser })
     })
