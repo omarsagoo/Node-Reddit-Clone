@@ -9,7 +9,18 @@ module.exports = function(app) {
 
        User.findOne({username}).lean().populate("comments").populate("posts")
        .then(user => {
-           console.log(user.createdAt)
+            res.render("profile", {user, currentUser})
+       })
+   })
+
+   app.get('/profile', (req, res) => {
+        var currentUser = req.user
+
+        User.findOne({username: currentUser.username}).lean().populate("comments").populate("posts")
+        .then(user => {
+            if (!user) {
+                return res.redirect("/")
+            }
             res.render("profile", {user, currentUser})
        })
    })
