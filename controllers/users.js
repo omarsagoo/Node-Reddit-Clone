@@ -9,6 +9,7 @@ module.exports = function(app) {
 
        User.findOne({username}).lean().populate("comments").populate("posts")
        .then(user => {
+           console.log(user.createdAt)
             res.render("profile", {user, currentUser})
        })
    })

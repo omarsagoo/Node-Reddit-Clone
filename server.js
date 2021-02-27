@@ -44,7 +44,12 @@ var checkAuth = (req, res, next) => {
 app.use(checkAuth);
 
 
-app.engine("handlebars", exphb({defaultLayout: 'main'}))
+app.engine("handlebars", exphb({defaultLayout: 'main', 
+                                                    helpers:{
+                                                      "dateFormat": require('handlebars-dateformat'),
+                                                    }
+                                                  })
+                                                )
 app.set('view engine', 'handlebars')
 
 // Controllers

@@ -1,6 +1,21 @@
 <div class="row">
   <div class="col-sm-8 col-sm-offset-2">
-      <h3>Posts</h3>
+      <h3>Username:</h3>
+        <p>{{user.username}}</p>
+    </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-8 col-sm-offset-2">
+      <h3>User Since:</h3>
+        <p>{{dateFormat user.created_at "MMMM DD, YYYY"}}</p>
+    </div>
+</div>
+
+
+<div class="row">
+  <div class="col-sm-8 col-sm-offset-2">
+      <h3>Posts:</h3>
         {{#each user.posts}}
             {{> post}}
         {{/each}}  
