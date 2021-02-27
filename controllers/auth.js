@@ -19,6 +19,10 @@ module.exports = (app) => {
     app.post("/sign-up", (req, res) => {
         // Create User and JWT
         const user = new User(req.body);
+
+        if (req.body.password != req.body.confirm) {
+            return res.status(401).send({ message: "Passwords do not match!" });
+        }
     
         user
         .save()
@@ -37,6 +41,9 @@ module.exports = (app) => {
     app.post("/login", (req, res) => {
         const username = req.body.username;
         const password = req.body.password;
+
+
+        
         // Find this user name
         User.findOne({ username }, "username password")
         .then(user => {
@@ -50,12 +57,16 @@ module.exports = (app) => {
                 // Password does not match
                 return res.status(401).send({ message: "Wrong Username or password" });
             }
-            // Create a token
-            const token = jwt.sign({ _id: user._id, username: user.username }, process.env.SECRET, {
-                expiresIn: "60 days"
-            });
-            // Set a cookie and redirect to root
-            res.cookie("nToken", token, { maxAge: 900000, httpOnly: true });
+
+            if (req.body.remember == "on") {
+                // Create a token
+                const token = jwt.sign({ _id: user._id, username: user.username }, process.env.SECRET, {
+                    expiresIn: "60 days"
+                });
+                // Set a cookie and redirect to root
+                res.cookie("nToken", token, { maxAge: 900000, httpOnly: true });
+            }
+    
             res.redirect("/");
             });
         })
