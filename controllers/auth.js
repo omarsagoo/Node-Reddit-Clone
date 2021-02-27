@@ -36,6 +36,12 @@ module.exports = (app) => {
         });
     })
 
+    app.get('/logout', (req, res) => {
+        res.clearCookie("ntoken", {path: '/', domain: 'localhost'}).send()
+        console.log("cookie deleted", req.cookies)
+        res.redirect("/login")
+    })
+
     // SIGN UP POST
     app.post("/sign-up", (req, res) => {
         // Create User and JWT
@@ -49,7 +55,7 @@ module.exports = (app) => {
         .save()
         .then(user => {
             var token = jwt.sign({ _id: user._id }, process.env.SECRET, { expiresIn: "60 days" })
-            res.cookie('nToken', token, { maxAge: 900000, httpOnly: true })
+            res.cookie('nToken', token, { maxAge: 900000, httpOnly: true, path: '/', domain: 'localhost' })
             res.redirect('/')
         })
         .catch(err => {
@@ -83,7 +89,7 @@ module.exports = (app) => {
                         expiresIn: "60 days"
                     })
                     // Set a cookie and redirect to root
-                    res.cookie("nToken", token, { maxAge: 900000, httpOnly: true })
+                    res.cookie("nToken", token, { maxAge: 900000, httpOnly: true, path:'/' })
                 }
         
                 res.redirect("/")
