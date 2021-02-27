@@ -8,6 +8,9 @@ const expressValidator = require('express-validator');
 var cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 
+// environment variables
+require('dotenv').config();
+
 // Set db
 require('./data/reddit-db');
 
