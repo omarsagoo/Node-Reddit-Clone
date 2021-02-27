@@ -1,6 +1,9 @@
-const Post = require('../models/post');
+
 
 module.exports = (app) => {
+
+    // Models
+    const Post = require('../models/post');
 
     // CREATE
     app.post('/posts/new', (req, res) => {
@@ -21,7 +24,7 @@ module.exports = (app) => {
 
     app.get("/posts/:id", (req, res) => {
         // LOOK UP THE POST
-        Post.findById(req.params.id).lean()
+        Post.findById(req.params.id).lean().populate('comments')
         .then(post => {
             res.render("posts-show", { post });
         })
