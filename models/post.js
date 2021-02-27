@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const mongoose = require("mongoose")
+const Schema = mongoose.Schema
 
 const PostSchema = new Schema({
   title: { type: String, required: true },
@@ -7,6 +7,6 @@ const PostSchema = new Schema({
   summary: { type: String, required: true },
   subreddit: { type: [String], required: true },
   comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }]
-}, {timestamps: {createdAt: 'created_at'}});
+}, {timestamps: {createdAt: 'created_at'}})
 
-module.exports = mongoose.model("Post", PostSchema);
+module.exports = mongoose.model("Post", PostSchema)

@@ -1,9 +1,9 @@
-const app = require("./../server");
-const chai = require("chai");
-const chaiHttp = require("chai-http");
-const should = chai.should();
+const app = require("./../server")
+const chai = require("chai")
+const chaiHttp = require("chai-http")
+const should = chai.should()
 
-chai.use(chaiHttp);
+chai.use(chaiHttp)
 
 describe("site", function() {
     // Describe what you are testing
@@ -15,10 +15,10 @@ describe("site", function() {
             .get("/")
             .end(function(err, res) {
                 if (err) {
-                    return done(err);
+                    return done(err)
                 }
-                res.status.should.be.equal(200);
-                return done(); // Call done if the test completed successfully.
-            });
-    });
-});
+                res.status.should.be.equal(200)
+                return done() // Call done if the test completed successfully.
+            })
+    })
+})
