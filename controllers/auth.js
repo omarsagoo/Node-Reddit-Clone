@@ -7,24 +7,31 @@ module.exports = (app) => {
 
     // SIGN UP FORM
     app.get("/sign-up", (req, res) => {
-      res.render("sign-up")
+    var currentUser = req.user;
+
+      res.render("sign-up", {currentUser})
     })
 
     // LOGIN FORM
     app.get('/login', (req, res) => {
+
         res.render('login')
     })
 
+    // FORGOT PASSWORD FORM
     app.get('/forgot-password',(req, res) => {
-        res.render("password-forget")
+        res.render("password-forget", {currentUser})
     })
 
+    // PASSWORD CHANGE LINK PAGE
     app.get('/password-change/:token', (req, res) => {
         let link = req.headers.host + '/password-update/' + req.params.token
-        res.render("password-change-link", { link })
+        res.render("password-change-link", { link, currentUser })
     })
 
+    // PASSWORD UPDATE FORM
     app.get('/password-update/:token', (req, res) => {
+        var currentUser = req.User
         const resetPasswordToken = req.params.token
         // verify a token symmetric
         jwt.verify(resetPasswordToken, process.env.SECRET, function(err, decoded) {
@@ -32,13 +39,13 @@ module.exports = (app) => {
                 return res.status(401).send({ message: "Token Expired!" })
             }
 
-            res.render('password-update', { token: resetPasswordToken})
+            res.render('password-update', { token: resetPasswordToken, currentUser})
         });
     })
 
+    // LOGOUT
     app.get('/logout', (req, res) => {
-        res.clearCookie("ntoken", {path: '/', domain: 'localhost'}).send()
-        console.log("cookie deleted", req.cookies)
+        res.clearCookie("ntoken", {path: '/', domain: 'localhost'})
         res.redirect("/login")
     })
 
@@ -100,6 +107,7 @@ module.exports = (app) => {
         })
     })
 
+    // FORGOT PASSWORD POST
     app.post('/forgot-password', (req, res) => {
         const username = req.body.username
 
@@ -120,6 +128,7 @@ module.exports = (app) => {
         })
     })
 
+    // UPDATE PASSWORD
     app.post('/update-password/:token', (req, res) => {
         const token = req.params.token
         const username = req.body.username

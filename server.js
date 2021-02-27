@@ -27,6 +27,22 @@ app.use(cookieParser())
 // Add after body parser initialization!
 app.use(expressValidator())
 
+// check the authentication of a user from the cookies
+// use it on every route
+var checkAuth = (req, res, next) => {
+  console.log("Checking authentication");
+  if (typeof req.cookies.nToken === "undefined" || req.cookies.nToken === null) {
+    req.user = null;
+  } else {
+    var token = req.cookies.nToken;
+    var decodedToken = jwt.decode(token, { complete: true }) || {};
+    req.user = decodedToken.payload;
+  }
+
+  next();
+};
+app.use(checkAuth);
+
 
 app.engine("handlebars", exphb({defaultLayout: 'main'}))
 app.set('view engine', 'handlebars')
@@ -37,9 +53,11 @@ require('./controllers/comments.js')(app)
 require('./controllers/auth.js')(app)
 
 app.get("/", (req, res) => {
+    var currentUser = req.user;
+  
     Post.find({}).lean()
     .then(posts => {
-      res.render('posts-index', { posts })
+      res.render('posts-index', { posts, currentUser })
     })
     .catch(err => {
       console.log(err.message)
