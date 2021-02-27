@@ -51,6 +51,8 @@ app.set('view engine', 'handlebars')
 require('./controllers/posts.js')(app)
 require('./controllers/comments.js')(app)
 require('./controllers/auth.js')(app)
+require('./controllers/users.js')(app)
+
 
 app.get("/", (req, res) => {
     var currentUser = req.user;
