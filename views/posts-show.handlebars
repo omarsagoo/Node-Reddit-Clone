@@ -13,5 +13,5 @@
     </div>
   </form>
 {{#each post.comments}}
-  {{> comment}}
+  {{> comment comment=this postId=../post._id}}
 {{/each}}

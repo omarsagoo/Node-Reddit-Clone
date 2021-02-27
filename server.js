@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require("express")
 const app = express()
 
@@ -52,11 +53,14 @@ app.engine("handlebars", exphb({defaultLayout: 'main',
                                                 )
 app.set('view engine', 'handlebars')
 
+app.use(express.static(path.join(__dirname,'/public/')))
+
 // Controllers
 require('./controllers/posts.js')(app)
 require('./controllers/comments.js')(app)
 require('./controllers/auth.js')(app)
 require('./controllers/users.js')(app)
+require('./controllers/replies.js')(app);
 
 
 app.get("/", (req, res) => {

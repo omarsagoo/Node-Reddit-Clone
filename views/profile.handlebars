@@ -26,7 +26,8 @@
   <div class="col-sm-8 col-sm-offset-2">
       <h3>Comments:</h3>
         {{#each user.comments}}
-            {{> comment}}
+            <p>{{this.content}}</p>
+            <p class="text-right">{{this.author.username}}</p>
         {{/each}}
     </div>
 </div>
