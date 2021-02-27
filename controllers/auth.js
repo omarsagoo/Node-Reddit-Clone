@@ -45,9 +45,9 @@ module.exports = (app) => {
 
     // LOGOUT
     app.get('/logout', (req, res) => {
-        res.clearCookie("ntoken", {path: '/', domain: 'localhost'})
-        res.redirect("/login")
-    })
+        res.clearCookie('nToken');
+        res.redirect('/');
+    });
 
     // SIGN UP POST
     app.post("/sign-up", (req, res) => {
@@ -57,6 +57,7 @@ module.exports = (app) => {
         if (req.body.password != req.body.confirm) {
             return res.status(401).send({ message: "Passwords do not match!" })
         }
+
     
         user
         .save()

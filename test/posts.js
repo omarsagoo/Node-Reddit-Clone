@@ -17,40 +17,45 @@ chai.use(chaiHttp)
 
 describe('Posts', function() {
     const agent = chai.request.agent(server)
-    // Post that we'll use for testing purposes
-    const newPost = newPost = {
-        title: 'post title',
-        url: 'https://www.google.com',
-        summary: 'post summary',
-        subreddit: "post"
-    }
+    
     const user = {
         username: 'poststest',
-        password: 'testposts'
+        password: 'testposts',
+        confirm: 'testposts'
     };
+
     before(function (done) {
         agent
           .post('/sign-up')
           .set("content-type", "application/x-www-form-urlencoded")
           .send(user)
           .then(function (res) {
-            User.findOne({username: user.username}).lean()
-            .then(user => {
-                
-                done();
-            })
+            done()
           })
           .catch(function (err) {
             done(err);
           });
+    });
 
-        
-      });
     it("should create with valid attributes at POST /posts/new", function (done) {
+        
         // Check how many posts there currently are
         Post.estimatedDocumentCount().then(initialDocCount => {
-
             agent
+            .post("/login")
+            .send({ username: user.username, password: user.password, remember: "on" })
+            .end(function(err, res) {
+                agent.should.have.cookie("nToken");
+
+                var newPost = {
+                    title: 'post title',
+                    url: 'https://www.google.com',
+                    summary: 'post summary',
+                    subreddit: "post",
+                    author: res.body._id
+                }
+
+                agent
                 .post("/posts/new" )
                 // This line fakes a form post,
                 // since we're not actually filling out a form
@@ -68,13 +73,12 @@ describe('Posts', function() {
                 }).catch(err => {
                     done(err)
                 })
-        }).catch(err => {
-            done(err)
+            });
         })
     })
 
     after(function (done) {
-        Post.findOneAndDelete(newPost)
+        Post.findOneAndDelete({title: "post title"})
         .then(function (res) {
             agent.close()
       
@@ -91,5 +95,5 @@ describe('Posts', function() {
         .catch(function (err) {
             done(err);
         });
-      });
+    });
 })

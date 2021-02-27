@@ -36,15 +36,36 @@ describe("User", function() {
 
     // signup
     it("should not be able to signup without the correct confirm", function(done) {
-        User.findOneAndRemove({ username: "testone" }, function() {
+        User.findOneAndRemove({ username: "testtwo" }, function() {
             agent
             .post("/sign-up")
-            .send({ username: "testone", password: "correct", confirm: "incorrect" })
+            .send({ username: "testtwo", password: "correct", confirm: "incorrect" })
             .end(function(err, res) {
                 console.log(res.body);
                 res.should.have.status(401);
                 done();
             });
+        });
+    });
+
+    // login
+    it("should be able to login", function(done) {
+        agent
+        .post("/login")
+        .send({ username: "testone", password: "password", remember: "on" })
+        .end(function(err, res) {
+            res.should.have.status(200);
+            agent.should.have.cookie("nToken");
+            done(err);
+        });
+    });
+
+    // logout
+    it("should be able to logout", function(done) {
+        agent.get("/logout").end(function(err, res) {
+        res.should.have.status(200);
+        agent.should.not.have.cookie("nToken");
+        done();
         });
     });
 
