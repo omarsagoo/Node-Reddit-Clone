@@ -5,6 +5,9 @@ var User = require("../models/user");
 module.exports = app => {
   // NEW REPLY
   app.get("/posts/:postId/comments/:commentId/replies/new", (req, res) => {
+      if (!req.user) {
+          return res.redirect("/login")
+      }
     var currentUser = req.user;
     let post;
     Post.findById(req.params.postId).lean()
@@ -22,6 +25,9 @@ module.exports = app => {
 
   // CREATE REPLY
   app.post("/posts/:postId/comments/:commentId/replies", (req, res) => {
+    if (!req.user) {
+        return res.redirect("/login")
+    }
     // TURN REPLY INTO A COMMENT OBJECT
     const reply = new Comment(req.body);
     reply.author = req.user._id
