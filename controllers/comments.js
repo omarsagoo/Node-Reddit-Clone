@@ -21,7 +21,7 @@ app.post("/posts/:postId/comments", function(req, res) {
         return post.save()
       })
       .then(post => {
-        res.redirect(`/`)
+        res.redirect(`/posts/`+ req.params.postId)
       })
       .catch(err => {
         console.log(err)

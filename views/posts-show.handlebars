@@ -2,6 +2,7 @@
   <div class="col-sm-6 col-sm-offset-3">
     <a href="{{post.url}}" class="lead">{{post.title}}</a>
     <p>{{post.summary}}</p>
+    <p>{{post.author.username}}</p>
   </div>
 </div>
 
@@ -12,6 +13,4 @@
     </div>
   </form>
 
-{{#each post.comments}}
-  <p>{{this.content}}</p>
-{{/each}}
+{{> comments}}
