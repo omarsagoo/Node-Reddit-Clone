@@ -51,7 +51,7 @@ describe('Posts', function() {
                     title: 'post title',
                     url: 'https://www.google.com',
                     summary: 'post summary',
-                    subreddit: "post",
+                    subreddit: "post subreddit",
                     author: res.body._id
                 }
 

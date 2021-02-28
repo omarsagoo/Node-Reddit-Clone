@@ -9,7 +9,10 @@ const PostSchema = new Schema({
   url: { type: String, required: true },
   summary: { type: String, required: true },
   subreddit: { type: [String], required: true },
-  comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }]
+  comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
+  upVotes : [{ type: Schema.Types.ObjectId, ref: "User"}],
+  downVotes : [{ type: Schema.Types.ObjectId, ref: "User"}],
+  voteScore : {type: Number},
 }, {timestamps: {createdAt: 'created_at'}})
 
 PostSchema

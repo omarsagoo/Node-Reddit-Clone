@@ -6,6 +6,15 @@
   </div>
 </div>
 
+<form class="vote-up" data-id="{{post._id}}">
+    <button type="submit">Vote Up</button>
+  </form>
+  |
+  <form class="vote-down" data-id="{{post._id}}">
+    <button type="submit">Vote Down</button>
+   </form>
+
+
 <form action="/posts/{{post._id}}/comments" method="post">
     <textarea class='form-control' name="content" placeholder="Comment"></textarea>
     <div class="text-right">
